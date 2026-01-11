@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: c3-postgres
+    environment:
+      POSTGRES_USER: c3_admin
+      POSTGRES_PASSWORD: c3_password
+      POSTGRES_DB: central_master
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - c3-network
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: c3-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - c3-network
+    restart: always
+
+  adminer:
+    image: adminer
+    container_name: c3-adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - c3-network
+    depends_on:
+      - postgres
+    restart: always
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  c3-network:
+    driver: bridge

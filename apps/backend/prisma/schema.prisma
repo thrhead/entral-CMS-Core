@@ -1,0 +1,81 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["central_master", "tenant_template"]
+}
+
+// --------------------------------------------------------
+// CENTRAL MASTER SCHEMA
+// --------------------------------------------------------
+
+model Tenant {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  plan        String   @default("free")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  domains     Domain[]
+
+  @@schema("central_master")
+  @@map("tenants")
+}
+
+model Domain {
+  id          String   @id @default(uuid())
+  domain      String   @unique
+  isPrimary   Boolean  @default(false)
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@schema("central_master")
+  @@map("domains")
+}
+
+// --------------------------------------------------------
+// TENANT TEMPLATE SCHEMA
+// --------------------------------------------------------
+// This schema serves as a blueprint for all tenant schemas.
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("tenant_template")
+  @@map("users")
+}
+
+model Page {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   Json?
+  isPublished Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("tenant_template")
+  @@map("pages")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+
+  @@schema("tenant_template")
+}

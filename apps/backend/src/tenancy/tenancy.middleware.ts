@@ -17,7 +17,7 @@ export class TenancyMiddleware implements NestMiddleware {
         try {
             const host = req.headers.host;
             const tenantIdHeader = req.headers['x-tenant-id'] as string;
-            // fs.appendFileSync('middleware.log', `[TenancyMiddleware] Host: ${host}, Header: ${tenantIdHeader}\n`);
+            fs.appendFileSync('middleware.log', `[TenancyMiddleware] Host: ${host}, Header: ${tenantIdHeader}\n`);
 
             let tenant: Tenant | null = null;
 

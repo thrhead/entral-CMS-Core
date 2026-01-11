@@ -4,22 +4,22 @@
 
 ### Faz 1 (M0): Altyapı ve Temel Mimari
 **Hedef:** 6-8 Hafta
-**Durum:** 🟡 Başlıyor
-**Çıktılar:** Veritabanı şeması, Tenant Middleware, DevOps setup.
+**Durum:** 🟢 Tamamlandı
+**Çıktılar:** Veritabanı şeması, Tenant Middleware, DevOps setup, Prisma Split Schema.
 
 ### Faz 2 (M1): İçerik Yönetim API'leri
 **Hedef:** 8-10 Hafta
-**Durum:** 🔴 Beklemede
-**Çıktılar:** CRUD API'ler, Medya Yön., Çoklu Dil.
+**Durum:** 🟢 Tamamlandı
+**Çıktılar:** CRUD API'ler (Users, Pages), RBAC Guard, Raw SQL Services.
 
 ### Faz 3 (M2): Frontend ve SEO Katmanı
 **Hedef:** 10-12 Hafta
-**Durum:** 🔴 Beklemede
-**Çıktılar:** Next.js SSR, Tema Motoru, SEO.
+**Durum:** 🟡 Devam Ediyor / Kısmen Tamamlandı (SEO hariç)
+**Çıktılar:** Next.js Dashboard, Login, Page Management UI.
 
 ### Faz 4 (M3): Süper Admin ve SaaS Otomasyonu
 **Hedef:** 8-10 Hafta
-**Durum:** 🔴 Beklemede
+**Durum:** 🔴 Beklemede (Sıradaki)
 **Çıktılar:** Billing, Onboarding, Monitoring.
 
 ### Faz 5 (M4): Gelişmiş Modüller

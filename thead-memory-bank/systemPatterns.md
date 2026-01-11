@@ -40,6 +40,15 @@ Tüm tenantlar aynı uygulama kodunu (Docker container) kullanır ancak verileri
 * **Feature Flags:** Özellikleri tenant bazında açıp kapatabilme.
 * **Monitoring:** ELK Stack (Loglar), Sentry (Hatalar), New Relic (APM).
 
+## 3.1 Veritabanı Erişim Deseni (Critical Adaptation)
+Prisma ORM'in `multiSchema` özelliği ile dinamik `search_path` kullanımı çakışmaktadır. Bu nedenle Hibrit bir yaklaşım benimsenmiştir:
+1.  **Central Tables (Tenant, Domain):** Standart Prisma Client metotları (`findUnique`, `create` vb.) kullanılır. Şema sabittir (`central_master`).
+2.  **Tenant Tables (User, Page, etc.):** Dinamik şema geçişi gerektirdiği için **Raw SQL** kullanılır.
+    *   Servis: `PrismaTenancyService`
+    *   Metot: `$queryRawUnsafe`
+    *   Neden: Prisma, model tabanlı sorgularda tablo adını `public.users` gibi tam adla (fully qualified) çözmekte ve `search_path` ayarını ezmektedir. Raw SQL ile bu davranış bypass edilir.
+    *   **Önemli:** Tarih alanları (`created_at`) için string yerine JS `Date` objesi, JSON alanları için `$x::jsonb` cast işlemi zorunludur.
+
 ## 6. Frontend Mimarisi
 * **SSR:** Next.js App Router ile dinamik rendering.
 * **Tema Motoru:** `theme.json` config dosyasına göre runtime'da renk, font ve layout enjeksiyonu.

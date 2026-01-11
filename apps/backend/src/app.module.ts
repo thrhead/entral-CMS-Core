@@ -4,6 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { TenancyModule } from './tenancy/tenancy.module';
+import { RedisModule } from './redis/redis.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { PagesModule } from './pages/pages.module';
 
 @Module({
   imports: [
@@ -12,6 +16,10 @@ import { TenancyModule } from './tenancy/tenancy.module';
     }),
     PrismaModule,
     TenancyModule,
+    RedisModule,
+    AuthModule,
+    UsersModule,
+    PagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
